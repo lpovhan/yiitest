@@ -1,0 +1,15 @@
+actor: ApiTester
+suite_namespace: \tests\api
+modules:
+  enabled:
+    - REST:
+        url: http://nginx/
+        shortDebugResponse: 300
+        depends: PhpBrowser
+    - PhpBrowser:
+        url: http://nginx/
+    - Yii2:
+        configFile: 'config/test.php'
+        cleanup: false
+        transaction: false
+        part: [orm, fixtures]

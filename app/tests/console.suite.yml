@@ -1,0 +1,9 @@
+actor: ConsoleTester
+suite_namespace: \console
+modules:
+    # enable helpers as array
+    enabled:
+        - Yii2:
+            configFile: 'config/console.php'
+            part: console
+        - Asserts
