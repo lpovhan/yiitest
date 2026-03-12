@@ -1,9 +1,10 @@
 actor: ConsoleTester
-suite_namespace: \console
+suite_namespace: \tests\console
 modules:
     # enable helpers as array
     enabled:
         - Yii2:
             configFile: 'config/console.php'
             part: console
+            entryScript: 'yii'
         - Asserts

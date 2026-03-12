@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace tests\api;
 
 use \ApiTester;
+use Helper\ApiHelper;
 
 final class UserCest
 {
+    use ApiHelper;
+
+    private const ENDPOINT = '/users';
 
     public function testIndexUsers(ApiTester $I)
     {
-        $I->sendGET('/users');
+        $I->sendGET(self::ENDPOINT);
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
 
@@ -24,15 +28,15 @@ final class UserCest
         ]);
 
         $I->seeResponseMatchesJsonType([
-            'id'         => 'integer',
+            'id' => 'integer',
             'first_name' => 'string',
-            'last_name'  => 'string'
+            'last_name' => 'string'
         ], '$.data[*]');
     }
 
     public function testViewUser(ApiTester $I)
     {
-        $I->sendGET('/users/1');
+        $I->sendGET(self::ENDPOINT . '/1');
         $I->seeResponseCodeIs(200);
         $I->seeResponseIsJson();
 
@@ -57,5 +61,23 @@ final class UserCest
             'title' => 'string',
             'url'   => 'string:url'
         ], '$.data.albums[0].photos[0]');
+    }
+
+    /**
+     * @dataProvider invalidIds
+     */
+    public function testViewUserNegative(ApiTester $I, \Codeception\Example $example)
+    {
+        $I->sendGET(self::ENDPOINT . '/' . $example['id']);
+
+        $I->seeResponseCodeIs($example['code']);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseMatchesJsonType([
+            'name' => 'string',
+            'status' => 'integer',
+            'code' => 'integer',
+            'message' => 'string'
+        ]);
     }
 }

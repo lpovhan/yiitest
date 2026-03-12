@@ -13,7 +13,12 @@ class SeedControllerCest
         Yii::$app->params['seedPhotosPerAlbum'] = 2;
 
         ob_start();
-        Yii::$app->runAction('seed/run');
+        
+        // Yii::$app->runAction('seed/run');
+        $app = \Yii::$app;
+        $controller = new \app\commands\SeedController('seed', $app);
+        $controller->runAction('run');
+
         ob_end_clean();
 
         $users = (new Query())->from('user')->count();

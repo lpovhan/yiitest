@@ -17,13 +17,11 @@ start: build
 	sleep 10
 	docker compose exec app php yii migrate
 	docker compose exec app php yii migrate seed/run
-	vendor/bin/codecept run tests/api/
+	docker compose exec app php vendor/bin/codecept build
+	docker compose exec app vendor/bin/codecept run tests/api/
 
 test:
 	docker compose exec app vendor/bin/codecept run
-
-run:
-	docker compose exec app php yii serve --port=8000 --host=0.0.0.0
 
 restart:
 	docker compose down
@@ -31,7 +29,3 @@ restart:
 
 stop:
 	docker compose down
-
-
-# 	php yii migrate 
-# php yii seed/run
