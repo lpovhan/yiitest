@@ -144,9 +144,56 @@ vendor/bin/codecept run tests/console
 Currently tests run against the main database.
 In real project a separate test database should be used.
 
-## API Example
+## API Endpoints
 
 Get list of albums:
+
+```bash
+GET http://localhost/users?page=2
+```
+
+Example response:
+
+```bash
+{
+  "status": "ok",
+  "total": 2,
+  "page": 2,
+  "pageSize": 10,
+  "data": [
+    {
+      "id": 1,
+      "first_name": "Austyn",
+      "last_name": "Torphy"
+    }
+  ]
+}
+```
+
+```bash
+GET http://localhost/users/1
+```
+
+Example response:
+
+```bash
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": 1,
+      "first_name": "John",
+      "last_name": "Doe",
+      "albums": [
+        {
+          "id": 1,
+          "title": "My photo",
+        }
+      ]
+    }
+  ]
+}
+```
 
 ```bash
 GET http://localhost/albums
@@ -156,10 +203,41 @@ Example response:
 
 ```bash
 {
-  "items": [
+  "status": "ok",
+  "total": 4,
+  "page": 1,
+  "pageSize": 10,
+  "data": [
     {
       "id": 1,
       "title": "My album"
+    }
+  ]
+}
+```
+
+```bash
+GET http://localhost/albums/1
+```
+
+Example response:
+
+```bash
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": 1,
+      "title": "My album",
+      "first_name": "John",
+      "last_name": "Doe",
+      "photos": [
+        {
+          "id": 1,
+          "title": "My photo",
+          "url": "http://localhost/images/seed/photo_69affd3ab2cec.jpg"
+        }
+      ]
     }
   ]
 }
@@ -175,6 +253,14 @@ Yii2 Basic was chosen because:
 - only a REST API is needed
 - minimal configuration speeds up development
 
+### Docker
+
+Docker is used for:
+
+- environment reproducibility
+- simplified project setup
+- dependency isolation
+
 ### Seeders
 
 Seeders are implemented as separate classes.
@@ -187,13 +273,16 @@ Reasons:
 
 In this project seeders are executed via a console orchestrator command.
 
-### Docker
+### DTO (Data Transfer Objects)
 
-Docker is used for:
+The project uses DTOs for API responses instead of the standard ActiveRecord fields() method.
 
-- environment reproducibility
-- simplified project setup
-- dependency isolation
+Reasons:
+
+- Strict Contract: Ensures the API always returns a predictable structure, regardless of internal DB changes.
+- Separation of Concerns: Decouples Database logic (ActiveRecord) from Presentation logic (API JSON).
+- Flexibility: Allows different data representations for the same model (e.g., Short version for lists and Full version for detailed views) without complex scenario management.
+- Performance: Prevents "leaking" sensitive or heavy data fields that are not needed for a specific endpoint.
 
 ## Limitations
 

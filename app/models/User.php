@@ -21,15 +21,11 @@ class User extends \yii\db\ActiveRecord
 
     public function fields(): array
     {
-        $fields = [
+        return [
             'id',
             'first_name',
             'last_name'
         ];
-        if (\Yii::$app->controller->action->id === 'view') {
-            $fields['albums'] = 'albums';
-        }
-        return $fields;
     }
 
     public function rules()
@@ -67,4 +63,5 @@ class User extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Album::class, ['user_id' => 'id']);
     }
+
 }

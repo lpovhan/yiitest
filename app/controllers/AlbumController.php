@@ -2,8 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\dto\AlbumDetailDto;
+use app\models\dto\AlbumDto;
 use Yii;
-use yii\data\ActiveDataProvider;
 
 class AlbumController extends BaseController
 {
@@ -19,6 +20,13 @@ class AlbumController extends BaseController
         if (!$model) {
             throw new \yii\web\NotFoundHttpException("Not found");
         }
-        return $model;
+        return AlbumDetailDto::fromModel($model);
+    }
+
+    protected function getList($models)
+    {
+        return array_map(function ($model) {
+            return AlbumDto::fromModel($model);
+        }, $models);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "album".
  *
@@ -26,29 +24,10 @@ class Album extends \yii\db\ActiveRecord
 
     public function fields(): array
     {
-        $fields = [
+        return [
             'id',
             'title'
         ];
-        if (\Yii::$app->controller->action->id === 'view') {
-            $fields['first_name'] = function ($model) {
-                return $model->user ? $model->user->first_name : null;
-            };
-            $fields['last_name'] = function ($model) {
-                return $model->user ? $model->user->last_name : null;
-            };
-            $fields['photos'] = function ($model) {
-                return array_map(function($photo) {
-                    return [
-                        'id' => $photo->id,
-                        'title' => $photo->title,
-                        'url' => $photo->getUrl()
-                    ];
-                }, $model->photos);
-            };
-        }
-
-        return $fields;
     }
 
     /**

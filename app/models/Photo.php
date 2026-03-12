@@ -24,12 +24,11 @@ class Photo extends \yii\db\ActiveRecord
 
     public function fields(): array
     {
-        $fields = [
+        return [
             'id',
             'title',
             'url'
         ];
-        return $fields;
     }
 
     public function rules()
@@ -62,10 +61,13 @@ class Photo extends \yii\db\ActiveRecord
         return $this->hasOne(Album::class, ['id' => 'album_id']);
     }
 
-    public function getUrl()
+    /**
+     * returns full url to the photo
+     *
+     * @return void
+     */
+    public function getUrl(): string
     {
-        $baseUrl = \Yii::$app->request->hostInfo;
-
-        return $baseUrl . DIRECTORY_SEPARATOR . Yii::$app->params['seedImagesUrl'] . $this->url;
+        return \Yii::$app->request->hostInfo . DIRECTORY_SEPARATOR . Yii::$app->params['seedImagesUrl'] . $this->url;
     }
 }

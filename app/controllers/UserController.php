@@ -2,6 +2,9 @@
 
 namespace app\controllers;
 
+use app\models\dto\UserDetailDto;
+use app\models\dto\UserDto;
+
 class UserController extends BaseController
 {
     public $modelClass = 'app\models\User';
@@ -15,6 +18,13 @@ class UserController extends BaseController
         if (!$model) {
             throw new \yii\web\NotFoundHttpException("Not found");
         }
-        return $model;
+        return UserDetailDto::fromModel($model);
+    }
+
+    protected function getList($models)
+    {
+        return array_map(function ($model) {
+            return UserDto::fromModel($model);
+        }, $models);
     }
 }

@@ -34,6 +34,29 @@ final class UserCest
         ], '$.data[*]');
     }
 
+    /**
+     * @dataProvider invalidPage
+     */
+    public function testIndexUsersInvalidPage(ApiTester $I, \Codeception\Example $example)
+    {
+        $I->sendGET(self::ENDPOINT, ['page' => $example['value']]);
+        $I->seeResponseCodeIs($example['code']);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(['message' => 'Invalid page']);
+    }
+
+    /**
+     * @dataProvider invalidPageSize
+     */
+    public function testIndexUsersInvalidPageSize(ApiTester $I, \Codeception\Example $example)
+    {
+        $I->sendGET(self::ENDPOINT, ['pageSize' => $example['value']]);
+        $I->seeResponseCodeIs($example['code']);
+        $I->seeResponseIsJson();
+        $I->seeResponseContainsJson(['message' => 'Invalid page size']);
+    }
+
+
     public function testViewUser(ApiTester $I)
     {
         $I->sendGET(self::ENDPOINT . '/1');
@@ -52,15 +75,8 @@ final class UserCest
 
         $I->seeResponseMatchesJsonType([
             'id' => 'integer',
-            'title' => 'string',
-            'photos' => 'array'
+            'title' => 'string'
         ], '$.data.albums[0]');
-
-        $I->seeResponseMatchesJsonType([
-            'id'    => 'integer',
-            'title' => 'string',
-            'url'   => 'string:url'
-        ], '$.data.albums[0].photos[0]');
     }
 
     /**

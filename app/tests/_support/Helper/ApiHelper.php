@@ -19,4 +19,25 @@ trait ApiHelper
             'float_id' => ['id' => 1.5, 'code' => 404],
         ];
     }
+
+
+    public function invalidPage(): array
+    {
+        return [
+            'string_page' => ['value' => 'abc', 'code' => 400],
+            'negative_page' => ['value' => -1, 'code' => 400],
+            'zero_page' => ['value' => 0, 'code' => 400],
+            'float_page' => ['value' => 1.5, 'code' => 400],
+        ];
+    }
+
+     public function invalidPageSize(): array
+    {
+        return [
+            'string_pagesize' => ['value' => 'abc', 'code' => 400],
+            'negative_pagesize' => ['value' => -1, 'code' => 400],
+            'zero_pagesize' => ['value' => 0, 'code' => 400],
+            'float_pagesize' => ['value' => 1.5, 'code' => 400],
+        ];
+    }
 }
