@@ -10,7 +10,7 @@ check-env:
 
 build: init
 	docker compose build --no-cache
-	docker-compose run --rm composer install --no-scripts --optimize-autoloader
+	docker-compose run --rm composer install --no-scripts --optimize-autoloader --no-interaction
 
 start: build
 	docker-compose up -d

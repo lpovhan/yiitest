@@ -45,9 +45,13 @@ docker/                 # docker configuration
 
 Before starting the project you must fill in `.env.example` so that it contains no empty values.
 
+Important: Ensure that the ports defined for Nginx are not already in use by other services on your host machine. If a port is occupied, the containers will fail to start.
+
 After that run:
 
 ```bash
+git clone git@github.com:lpovhan/yiitest.git
+cd yiitest
 make start
 ```
 
